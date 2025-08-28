@@ -4,6 +4,6 @@
     {
         public const string GUID = "gizmo.zlothy.dingus";
         public const string Name = "dingus";
-        public const string Version = "1.1.0";
+        public const string Version = "1.1.1";
     }
 }
