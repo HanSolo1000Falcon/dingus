@@ -91,7 +91,7 @@ namespace dingus
             if (!showGUI) return;
 
             GUI.backgroundColor = Color.blue;
-            guiRect = GUI.Window(0, guiRect, DrawWindow, "Dingus Controller");
+            guiRect = GUI.Window(41, guiRect, DrawWindow, "Dingus Controller");
 
             if (Event.current.type == EventType.MouseDown && guiRect.Contains(Event.current.mousePosition))
             {
