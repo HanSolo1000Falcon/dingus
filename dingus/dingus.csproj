@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\dingus" />
+    <None Remove="Resources\dingusICON.png" />
+    <EmbeddedResource Include="Resources\dingusICON.png" />
   </ItemGroup>
 
   <ItemGroup>
