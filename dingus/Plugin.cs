@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using DevHoldableEngine;
 using dingus.Behaviors;
+using dingus.Networking;
 using GorillaLocomotion.Swimming;
 using System;
 using System.IO;
@@ -14,27 +15,34 @@ namespace dingus
     public class Plugin : BaseUnityPlugin
     {
         public static AssetBundle bundle;
-        public static GameObject dingus;
+        public static GameObject dingusPrefab;
+        public static GameObject localDingus;
 
         void Start() => Utilla.Events.GameInitialized += Init;
 
         private void Init(object sender, EventArgs e)
         {
             bundle = LoadAssetBundle("dingus.Resources.dingus");
-            dingus = Instantiate(bundle.LoadAsset<GameObject>("dingus"));
-            DontDestroyOnLoad(dingus);
-            
-            dingus.transform.position = new Vector3(-66.4f, 14.5f, -82.5f);
 
-            var holdable = dingus.AddComponent<DevHoldable>();
-            holdable.Rigidbody = dingus.GetComponent<Rigidbody>();
+            dingusPrefab = bundle.LoadAsset<GameObject>("dingus");
+            localDingus = Instantiate(dingusPrefab);
+            DontDestroyOnLoad(localDingus);
 
+            localDingus.transform.position = new Vector3(-66.4f, 14.5f, -82.5f);
+
+            var holdable = localDingus.AddComponent<DevHoldable>();
+            holdable.Rigidbody = localDingus.GetComponent<Rigidbody>();
             holdable.PickUp = true;
-            
-            dingus.AddComponent<DingusInjury>();
-            dingus.AddComponent<RigidbodyWaterInteraction>();
 
-            dingus.layer = 8;
+            localDingus.AddComponent<DingusInjury>();
+            localDingus.AddComponent<RigidbodyWaterInteraction>();
+            localDingus.AddComponent<LocalDingus>();
+
+            localDingus.layer = 8;
+
+            gameObject.AddComponent<DingusManager>();
+
+            DingusNetworkManager.SetHasDingus();
         }
 
         public AssetBundle LoadAssetBundle(string path)
