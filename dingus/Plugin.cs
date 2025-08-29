@@ -1,4 +1,4 @@
-﻿using BepInEx;
+using BepInEx;
 using DevHoldableEngine;
 using dingus.Behaviors;
 using dingus.Networking;
@@ -23,9 +23,10 @@ namespace dingus
 
 
         private bool showGUI = true;
-        private Rect guiRect = new Rect(10, 10, 240, 235);
+        private Rect guiRect = new Rect(10, 10, 240, 270);
         private Vector2 dragOffset;
         private bool dragging = false;
+        private bool muted = false;
 
 
         void Start() => Utilla.Events.GameInitialized += Init;
@@ -130,10 +131,27 @@ namespace dingus
                     localDingus.transform.position = new Vector3(-66.4f, 14.5f, -82.5f);
                 }
             }
+            
+            GUI.backgroundColor = Color.magenta;
+            if (GUI.Button(new Rect(10, 200, 220, 30), "STFU Dingus"))
+            {
+                foreach (var aSrc in localDingus.GetComponentsInChildren<AudioSource>())
+                    if (muted == false)
+                    {
+                        aSrc.enabled = false;
+                        muted = true;
+                    }
+                    else
+                    {
+                        aSrc.enabled = true;
+                        muted = false;
+                    }
+                    
+            }
 
             GUI.backgroundColor = Color.blue;
 
-            GUI.Label(new Rect(37.5f, 200, 220, 25), "Press [Insert] to Toggle GUI");
+            GUI.Label(new Rect(37.5f, 230, 220, 25), "Press [Insert] to Toggle GUI");
 
             GUI.DragWindow(new Rect(0, 0, 10000, 20));
         }
