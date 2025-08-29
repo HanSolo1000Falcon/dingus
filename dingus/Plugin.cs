@@ -27,6 +27,7 @@ namespace dingus
         private Vector2 dragOffset;
         private bool dragging = false;
         private bool muted = false;
+        private Vector3 ogDingusScale;
 
 
         void Start() => Utilla.Events.GameInitialized += Init;
@@ -42,6 +43,8 @@ namespace dingus
             DontDestroyOnLoad(localDingus);
 
             localDingus.transform.position = new Vector3(-66.4f, 14.5f, -82.5f);
+            ogDingusScale = localDingus.transform.localScale;
+            
 
             var holdable = localDingus.AddComponent<DevHoldable>();
             holdable.Rigidbody = localDingus.GetComponent<Rigidbody>();
@@ -129,6 +132,7 @@ namespace dingus
                 if (localDingus != null && GorillaTagger.Instance != null)
                 {
                     localDingus.transform.position = new Vector3(-66.4f, 14.5f, -82.5f);
+                    localDingus.transform.localScale = ogDingusScale;
                 }
             }
             
