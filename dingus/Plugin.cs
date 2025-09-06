@@ -6,6 +6,7 @@ using GorillaLocomotion.Swimming;
 using System;
 using System.IO;
 using System.Reflection;
+using BepInEx.Configuration;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -60,7 +61,14 @@ namespace dingus
 
             DingusNetworkManager.SetHasDingus();
 
-            
+            ConfigFile configFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "dingus.cfg"), true);
+            ConfigEntry<bool> dingusAudio = configFile.Bind("Dingus", "Audio", true, "Enable/Disable dingus Audio");
+
+            foreach (var aSrc in localDingus.GetComponentsInChildren<AudioSource>())
+            {
+                aSrc.enabled = dingusAudio.Value;
+                muted = !dingusAudio.Value;
+            }
         }
 
         public AssetBundle LoadAssetBundle(string path)
