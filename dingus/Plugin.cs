@@ -63,6 +63,8 @@ namespace dingus
 
             ConfigFile configFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "dingus.cfg"), true);
             ConfigEntry<bool> dingusAudio = configFile.Bind("Dingus", "Audio", true, "Enable/Disable dingus Audio");
+            ConfigEntry<bool> guiEnabled = configFile.Bind("Dingus", "GUI", true, "Enable/Disable dingus GUI");
+            showGUI = guiEnabled.Value;
 
             foreach (var aSrc in localDingus.GetComponentsInChildren<AudioSource>())
             {
